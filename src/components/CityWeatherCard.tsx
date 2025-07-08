@@ -1,6 +1,14 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Button, Stack } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Button,
+  Stack,
+} from '@mui/material';
 import type { CityWeatherState } from '../app/WeatherSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface WeatherCardProps {
   data: CityWeatherState;
@@ -18,6 +26,7 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
   showRemove = false,
 }: WeatherCardProps) {
   const current = data.current;
+  const navigate = useNavigate();
 
   if (!current) {
     return null;
@@ -58,6 +67,13 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
                   Remove
                 </Button>
               )}
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => navigate(`/${name}`)}
+              >
+                See more details
+              </Button>
             </Stack>
           </Box>
         )}

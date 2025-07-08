@@ -5,7 +5,8 @@ import { WeatherSearch } from './components/WeatherSearch';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch } from './app/hooks';
 import { fetchCityWeather } from './app/WeatherThunks';
-
+import { Routes, Route } from 'react-router-dom';
+import { CityDetails } from './pages/CityDetails';
 export function App() {
   const allCities = useSelector((state: RootState) => state.weather.allCities);
   const dispatch = useAppDispatch();
@@ -30,9 +31,17 @@ export function App() {
   }, [allCities]);
 
   return (
-    <div>
-      <WeatherSearch />
-      <WeatherList />
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <WeatherSearch />
+            <WeatherList />
+          </>
+        }
+      />
+      <Route path="/:cityName" element={<CityDetails />} />
+    </Routes>
   );
 }
