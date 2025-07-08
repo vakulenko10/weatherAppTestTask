@@ -1,26 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { increment } from './app/store';
+import { useSelector } from 'react-redux';
+import { type RootState } from './app/store';
+import { WeatherList } from './components/WeatherList';
+import { WeatherSearch } from './components/WeatherSearch';
 
-import { Button } from '@mui/material';
-function App() {
-  const count = useSelector((state: any) => state.counter.value);
-  const dispatch = useDispatch();
+export function App() {
+  const state = useSelector((state: RootState) => state);
+
+  console.log('🧠 Current Redux State:', state);
+
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Project setup is ready!</h1>
-      <h1>Redux Counter Test</h1>
-      <p>Count: {count}</p>
-      <button onClick={() => dispatch(increment())}>+1</button>
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => dispatch(increment())}
-      >
-        +1
-      </Button>
+    <div>
+      <WeatherSearch/>
+      <h1>Redux Store Test</h1>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
+      <WeatherList/>
     </div>
   );
-}
-
-export default App;
+} 

@@ -1,20 +1,12 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-
-// Very basic slice to test Redux
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: { value: 0 },
-  reducers: {
-    increment(state) {
-      state.value += 1;
-    },
-  },
-});
-
-export const { increment } = counterSlice.actions;
+import { configureStore } from '@reduxjs/toolkit';
+import weatherReducer from './WeatherSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
+    weather: weatherReducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

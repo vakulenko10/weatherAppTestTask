@@ -35,17 +35,3 @@ p {
   background-color: $color-info;
   border-radius: 4px;
 }
-
-/* Utility Classes */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: $spacing-md;
-}
-
-.card {
-  background: $color-paper;
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
