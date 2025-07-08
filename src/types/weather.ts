@@ -19,4 +19,4 @@ export interface OneCallResponse {
     dt: number;
     temp: number;
   }[];
-}   
+}

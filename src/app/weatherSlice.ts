@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type WeatherData } from '../types/weather';
 
-interface CityWeatherState {
+export interface CityWeatherState {
   current: WeatherData | null;
   forecast: any;
   updatedAt: number;
@@ -36,10 +36,9 @@ const weatherSlice = createSlice({
       }
     },
     removeCity: (state, action: PayloadAction<string>) => {
-        
-     state.entities = Object.fromEntries(
+      state.entities = Object.fromEntries(
         Object.entries(state.entities).filter(([key]) => key !== action.payload)
-    );
+      );
       state.allCities = state.allCities.filter((c) => c !== action.payload);
     },
   },

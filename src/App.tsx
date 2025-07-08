@@ -2,18 +2,37 @@ import { useSelector } from 'react-redux';
 import { type RootState } from './app/store';
 import { WeatherList } from './components/WeatherList';
 import { WeatherSearch } from './components/WeatherSearch';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch } from './app/hooks';
+import { fetchCityWeather } from './app/WeatherThunks';
 
 export function App() {
-  const state = useSelector((state: RootState) => state);
+  const allCities = useSelector((state: RootState) => state.weather.allCities);
+  const dispatch = useAppDispatch();
 
-  console.log('🧠 Current Redux State:', state);
+  const hasRestored = useRef(false);
+
+  // 1. Restore from localStorage once
+  useEffect(() => {
+    const saved = localStorage.getItem('savedCities');
+    if (saved) {
+      const cities: string[] = JSON.parse(saved);
+      cities.forEach((city) => dispatch(fetchCityWeather(city)));
+    }
+    hasRestored.current = true;
+  }, [dispatch]);
+
+  // 2. Only write to localStorage AFTER restoration
+  useEffect(() => {
+    if (hasRestored.current) {
+      localStorage.setItem('savedCities', JSON.stringify(allCities));
+    }
+  }, [allCities]);
 
   return (
     <div>
-      <WeatherSearch/>
-      <h1>Redux Store Test</h1>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
-      <WeatherList/>
+      <WeatherSearch />
+      <WeatherList />
     </div>
   );
-} 
+}
