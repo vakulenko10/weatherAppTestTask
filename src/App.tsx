@@ -1,26 +1,47 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { increment } from './app/store';
+import { useSelector } from 'react-redux';
+import { type RootState } from './app/store';
+import { WeatherList } from './components/WeatherList';
+import { WeatherSearch } from './components/WeatherSearch';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch } from './app/hooks';
+import { fetchCityWeather } from './app/WeatherThunks';
+import { Routes, Route } from 'react-router-dom';
+import { CityDetails } from './pages/CityDetails';
+export function App() {
+  const allCities = useSelector((state: RootState) => state.weather.allCities);
+  const dispatch = useAppDispatch();
 
-import { Button } from '@mui/material';
-function App() {
-  const count = useSelector((state: any) => state.counter.value);
-  const dispatch = useDispatch();
+  const hasRestored = useRef(false);
+
+  // 1. Restore from localStorage once
+  useEffect(() => {
+    const saved = localStorage.getItem('savedCities');
+    if (saved) {
+      const cities: string[] = JSON.parse(saved);
+      cities.forEach((city) => dispatch(fetchCityWeather(city)));
+    }
+    hasRestored.current = true;
+  }, [dispatch]);
+
+  // 2. Only write to localStorage AFTER restoration
+  useEffect(() => {
+    if (hasRestored.current) {
+      localStorage.setItem('savedCities', JSON.stringify(allCities));
+    }
+  }, [allCities]);
+
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Project setup is ready!</h1>
-      <h1>Redux Counter Test</h1>
-      <p>Count: {count}</p>
-      <button onClick={() => dispatch(increment())}>+1</button>
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => dispatch(increment())}
-      >
-        +1
-      </Button>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <WeatherSearch />
+            <WeatherList />
+          </>
+        }
+      />
+      <Route path="/:cityName" element={<CityDetails />} />
+    </Routes>
   );
 }
-
-export default App;
