@@ -18,6 +18,7 @@ interface WeatherCardProps {
   isAddable?: boolean;
   onRemove?: () => void;
   showRemove?: boolean;
+  showRefresh?:boolean
 }
 
 export const CityWeatherCard = React.memo(function CityWeatherCard({
@@ -26,6 +27,7 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
   isAddable = false,
   onRemove,
   showRemove = false,
+  showRefresh = false
 }: WeatherCardProps) {
   const current = data.current;
   const navigate = useNavigate();
@@ -79,13 +81,13 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
               >
                 See more details
               </Button>
-              <Button
+              {showRefresh&&<Button
               variant="outlined"
               color="primary"
               onClick={handleRefresh}
             >
               Refresh
-            </Button>
+            </Button>}
             </Stack>
           </Box>
         )}

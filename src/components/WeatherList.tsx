@@ -14,6 +14,7 @@ export const WeatherList = () => {
           data={entities[city]}
           showRemove={true}
           onRemove={() => dispatch(removeCity(city))}
+          showRefresh={true}
         />
       ))}
     </Container>
