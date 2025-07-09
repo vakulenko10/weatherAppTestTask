@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import type { CityWeatherState } from '../app/WeatherSlice';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../app/hooks';
+import { fetchCityWeather } from '../app/WeatherThunks';
 
 interface WeatherCardProps {
   data: CityWeatherState;
@@ -27,7 +29,7 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
 }: WeatherCardProps) {
   const current = data.current;
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   if (!current) {
     return null;
   }
@@ -37,6 +39,9 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
     main: { temp },
     weather,
   } = current;
+   const handleRefresh = () => {
+    dispatch(fetchCityWeather(name));
+  };
 
   return (
     <Card
@@ -74,6 +79,13 @@ export const CityWeatherCard = React.memo(function CityWeatherCard({
               >
                 See more details
               </Button>
+              <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleRefresh}
+            >
+              Refresh
+            </Button>
             </Stack>
           </Box>
         )}
