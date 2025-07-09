@@ -6,6 +6,3 @@ export const getWeatherUrl = (city: string) =>
 
 export const getForecastUrl = (city: string) =>
   `${BASE_URL}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
-
-export const getOneCallUrl = (lat: number, lon: number) =>
-  `${BASE_URL}/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily,alerts&appid=${API_KEY}&units=metric`;

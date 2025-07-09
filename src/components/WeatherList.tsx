@@ -11,6 +11,7 @@ export const WeatherList = () => {
     <Container>
       {cities.map((city) => (
         <CityWeatherCard
+          key={city}
           data={entities[city]}
           showRemove={true}
           onRemove={() => dispatch(removeCity(city))}

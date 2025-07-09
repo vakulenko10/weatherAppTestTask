@@ -4,6 +4,7 @@ import { Typography, Box, Button, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { fetchCurrentWeather, fetchForecast } from '../api';
 import { fetchCityWeather } from '../app/WeatherThunks';
+import { ForecastChart } from '../components/ForecastChart';
 
 export const CityDetails = () => {
   const { cityName } = useParams();
@@ -23,6 +24,7 @@ export const CityDetails = () => {
         try {
           const current = await fetchCurrentWeather(cityName);
           const forecast = await fetchForecast(cityName);
+          console.log('forecast:', forecast)
           setTempData({ current, forecast, updatedAt: Date.now() });
         } catch (err) {
           setError('City not found.');
@@ -76,15 +78,20 @@ export const CityDetails = () => {
       <Typography variant="body1">
         Weather: {dataToShow.current.weather[0].description}
       </Typography>
-      <Typography variant="body2" sx={{ mt: 2 }}>
-        Forecast data available:{' '}
-        {Boolean(dataToShow.forecast?.hourly?.length).toString()}
-      </Typography>
 
       {!storedData && (
         <Button sx={{ mt: 3 }} variant="outlined" onClick={handleAdd}>
           Add to My Cities
         </Button>
+      )}
+
+      {dataToShow.forecast?.list && (
+        <Box sx={{ mt: 5 }}>
+          <Typography variant="h6" gutterBottom>
+            Hourly Forecast Next 5 days
+          </Typography>
+          <ForecastChart key={cityName} data={dataToShow.forecast.list} />
+        </Box>
       )}
     </Box>
   );
