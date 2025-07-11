@@ -1,7 +1,9 @@
+/** @type {import('jest').Config} */
 export default {
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['./src/setupTests.ts'],
-  moduleNameMapper: {
-    '\\.(css|scss)$': 'identity-obj-proxy',
+  testEnvironment: 'jest-environment-jsdom',
+  transform: {
+    '^.+\\.(ts|tsx)$': 'babel-jest',
   },
+  moduleFileExtensions: ['ts', 'tsx', 'js'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
 };

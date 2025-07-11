@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   TextField,
   Button,
@@ -6,44 +5,19 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
-import { fetchCurrentWeather, fetchForecast } from '../api';
-import { useAppDispatch } from '../app/hooks';
-import { fetchCityWeather } from '../app/WeatherThunks';
 import { CityWeatherCard } from './CityWeatherCard';
-import type { CityWeatherState } from '../app/WeatherSlice';
+import { useWeatherSearch } from '../hooks/useWeatherSearch';
+
 export const WeatherSearch = () => {
-  const dispatch = useAppDispatch();
-  const [query, setQuery] = useState('');
-  const [preview, setPreview] = useState<CityWeatherState | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSearch = async () => {
-    setError('');
-    setLoading(true);
-    setPreview(null);
-    try {
-      const current = await fetchCurrentWeather(query);
-      const forecast = await fetchForecast(query);
-      setPreview({
-        current,
-        forecast,
-        updatedAt: Date.now(),
-      });
-    } catch (e) {
-      setError('City not found.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAddCity = () => {
-    if (preview?.current?.name) {
-      dispatch(fetchCityWeather(preview.current.name));
-      setPreview(null);
-      setQuery('');
-    }
-  };
+  const {
+    query,
+    setQuery,
+    preview,
+    loading,
+    error,
+    handleSearch,
+    handleAddCity,
+  } = useWeatherSearch();
 
   return (
     <Box sx={{ maxWidth: 500, margin: '2rem auto', padding: 2 }}>

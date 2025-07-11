@@ -24,7 +24,7 @@ export const CityDetails = () => {
         try {
           const current = await fetchCurrentWeather(cityName);
           const forecast = await fetchForecast(cityName);
-          console.log('forecast:', forecast)
+          console.log('forecast:', forecast);
           setTempData({ current, forecast, updatedAt: Date.now() });
         } catch (err) {
           setError('City not found.');
