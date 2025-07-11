@@ -20,7 +20,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["node","jest", "@testing-library/jest-dom"]
+    "types": ["node", "jest", "@testing-library/jest-dom"]
   },
   "include": ["vite.config.ts"]
 }

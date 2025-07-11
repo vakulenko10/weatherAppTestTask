@@ -40,48 +40,50 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
   const labels = useMemo(() => data.map((e) => formatTime(e.dt)), [data]);
   const temperatures = useMemo(() => data.map((e) => e.main.temp), [data]);
 
-  const config: ChartConfiguration = useMemo(() => ({
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Temperature (°C)',
-          data: temperatures,
-          borderColor: 'rgba(75,192,192,1)',
-          backgroundColor: 'rgba(75,192,192,0.2)',
-          fill: true,
-          tension: 0.4,
-          pointRadius: 3,
-          pointHoverRadius: 5,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: 'top' },
-        title: {
-          display: true,
-          text: 'Hourly Temperature Forecast',
-        },
-        tooltip: {
-          mode: 'index',
-          intersect: false,
-          callbacks: {
-            title: (items) =>
-              formatTooltipTitle(data[items[0].dataIndex].dt),
-            label: (item) => `Temp: ${item.formattedValue} °C`,
+  const config: ChartConfiguration = useMemo(
+    () => ({
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Temperature (°C)',
+            data: temperatures,
+            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          title: {
+            display: true,
+            text: 'Hourly Temperature Forecast',
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              title: (items) => formatTooltipTitle(data[items[0].dataIndex].dt),
+              label: (item) => `Temp: ${item.formattedValue} °C`,
+            },
           },
         },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false,
+        },
       },
-      interaction: {
-        mode: 'nearest',
-        axis: 'x',
-        intersect: false,
-      },
-    },
-  }), [labels, temperatures, data]);
+    }),
+    [labels, temperatures, data]
+  );
 
   useForecastChart(canvasRef, config);
 

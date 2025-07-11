@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Chart, type ChartConfiguration } from 'chart.js';
 
 export const useForecastChart = (
-  canvasRef: React.RefObject<HTMLCanvasElement|null>,
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
   config: ChartConfiguration
 ) => {
   const chartRef = useRef<Chart | null>(null);
