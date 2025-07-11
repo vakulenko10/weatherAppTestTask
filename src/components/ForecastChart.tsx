@@ -77,9 +77,26 @@ export const ForecastChart: React.FC<ForecastChartProps> = ({ data }) => {
               text: 'Hourly Temperature Forecast',
             },
             tooltip: {
-              mode: 'index' as const,
-              intersect: false,
-            },
+  mode: 'index',
+  intersect: false,
+  callbacks: {
+    title: (tooltipItems) => {
+      const index = tooltipItems[0].dataIndex;
+      const timestamp = data[index].dt * 1000;
+      const date = new Date(timestamp);
+
+      return date.toLocaleString('en-GB', {
+        weekday: 'short',    
+        year: 'numeric',
+        month: 'short',     
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    },
+    label: (tooltipItem) => `Temp: ${tooltipItem.formattedValue} °C`,
+  },
+},
           },
           interaction: {
             mode: 'nearest' as const,
